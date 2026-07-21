@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "rock8cloud": {
+      "url": "https://app.rock8.cloud/mcp",
+      "auth": "oauth",
+      "directTools": true
+    }
+  }
+}

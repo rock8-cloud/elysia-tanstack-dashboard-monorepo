@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Local environment files
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
+# Build and tool output
+dist
+**/dist
+.turbo
+**/.turbo
+.tanstack
+**/.tanstack
+coverage
+*.tsbuildinfo
+
+# Local agent and editor state
+.claude
+.idea
+.vscode
+
+# Logs and operating-system files
+*.log
+.DS_Store

@@ -1,0 +1,5 @@
+# Hoisted linker: a single copy of each dependency at the root, so types
+# shared across workspaces (e.g. the server's Elysia `App` type consumed by
+# Eden in the web app) resolve to the same module instance.
+[install]
+linker = "hoisted"

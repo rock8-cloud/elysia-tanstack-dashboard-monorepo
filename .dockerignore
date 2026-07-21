@@ -1,0 +1,16 @@
+.git
+.github
+.claude
+.idea
+.vscode
+.turbo
+**/.turbo
+node_modules
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+!**/.env.example
+coverage
+.DS_Store
+*.log
