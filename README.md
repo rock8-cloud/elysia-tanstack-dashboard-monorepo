@@ -131,43 +131,26 @@ Dockerfiles.
 
 ## Deploy on Rock8Cloud
 
-### Deploy through MCP
+[![Deploy on Rock8Cloud](https://img.shields.io/badge/Deploy%20on-Rock8Cloud-06b6d4?style=for-the-badge)](https://app.rock8.cloud/login?redirect=%2Fnew-deployment%3Fblueprint%3Delysia-tanstack-dashboard-monorepo%26utm_source%3Dgithub%26utm_medium%3Dreadme%26utm_campaign%3Dblueprint)
 
-This repository includes [`.mcp.json`](.mcp.json) with the Rock8Cloud MCP
-endpoint already configured. Open the project in an MCP-compatible coding
-agent, log in to Rock8Cloud when the OAuth prompt opens, and ask:
+Click the button to sign in, clone this blueprint to your GitHub account, and
+deploy the web app, API, and Postgres database through the Rock8Cloud UI in one click.
+
+### Deploy your own repository
+
+You can also create your own repository from this blueprint and deploy it from
+the Rock8Cloud UI, or use an MCP-compatible coding agent. This repository
+includes [`.mcp.json`](.mcp.json) with the Rock8Cloud MCP endpoint already
+configured. Open the repository in your agent, complete the OAuth login when
+prompted, and ask:
 
 ```text
 Deploy this project to Rock8Cloud.
 ```
 
-No API key, deployment CLI, or GitHub Actions workflow is required. The agent
-can provision Postgres, create both services, configure their environment, and
-start the deployment through the authenticated MCP connection.
-
-### One-click deployment
-
-[Deploy the blueprint](https://app.rock8.cloud/login?redirect=%2Fnew-deployment%3Fblueprint%3Delysia-tanstack-dashboard-monorepo%26utm_source%3Dgithub%26utm_medium%3Dreadme%26utm_campaign%3Dblueprint) to provision Postgres and deploy both services:
-
-- `apps/server/Dockerfile` builds the Elysia API on port `3001`. On startup it
-  applies pending migrations and idempotently creates the configured seed user.
-- `apps/web/Dockerfile` builds the TanStack Start app on port `3000` and accepts
-  `VITE_SERVER_URL` as a build argument.
-- Rock8Cloud supplies `DATABASE_URL`, generates `BETTER_AUTH_SECRET`, and wires
-  the public API and web URLs through the remaining environment variables.
-
-Register the Rock8Cloud blueprint with the slug
-`elysia-tanstack-dashboard-monorepo` and the repository root as the build
-context for both application services:
-
-| Service  | Dockerfile               | Port | Required configuration                                                                                          |
-| -------- | ------------------------ | ---- | --------------------------------------------------------------------------------------------------------------- |
-| Postgres | Managed PostgreSQL       | 5432 | Link its `URL` output to the API as `DATABASE_URL`                                                              |
-| API      | `apps/server/Dockerfile` | 3001 | `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (API URL), `CORS_ORIGIN` (web URL), and optional `SEED_*` values        |
-| Web      | `apps/web/Dockerfile`    | 3000 | Pass the API public URL to the Docker build as `VITE_SERVER_URL`; the Dockerfile declares the matching argument |
-
-The API health-check path is `/health`. The web login page remains available
-while the API is starting, so the two services can roll out independently.
+The agent can create the project, provision Postgres, configure both services,
+and start the deployment. No API key, deployment CLI, or GitHub Actions
+workflow is required.
 
 ## Ports
 
