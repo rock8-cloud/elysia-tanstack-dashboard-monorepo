@@ -4,7 +4,7 @@ An opinionated, end-to-end type-safe monorepo for authenticated web products:
 an Elysia API, TanStack Start frontend, Postgres, and a small todo vertical
 slice that demonstrates the architecture without hiding it behind abstractions.
 
-[![Deploy on Rock8Cloud](https://img.shields.io/badge/Deploy%20on-Rock8Cloud-06b6d4?style=for-the-badge)](https://app.rock8.cloud/new-deployment?blueprint=elysia-tanstack-dashboard-monorepo&utm_source=github&utm_medium=readme&utm_campaign=blueprint)
+[![Deploy on Rock8Cloud](https://img.shields.io/badge/Deploy%20on-Rock8Cloud-06b6d4?style=for-the-badge)](https://app.rock8.cloud/login?redirect=%2Fnew-deployment%3Fblueprint%3Delysia-tanstack-dashboard-monorepo%26utm_source%3Dgithub%26utm_medium%3Dreadme%26utm_campaign%3Dblueprint)
 
 ![Elysia and TanStack dashboard demo](dashboard-demo.png)
 
@@ -147,7 +147,7 @@ start the deployment through the authenticated MCP connection.
 
 ### One-click deployment
 
-[Deploy the blueprint](https://app.rock8.cloud/new-deployment?blueprint=elysia-tanstack-dashboard-monorepo&utm_source=github&utm_medium=readme&utm_campaign=blueprint) to provision Postgres and deploy both services:
+[Deploy the blueprint](https://app.rock8.cloud/login?redirect=%2Fnew-deployment%3Fblueprint%3Delysia-tanstack-dashboard-monorepo%26utm_source%3Dgithub%26utm_medium%3Dreadme%26utm_campaign%3Dblueprint) to provision Postgres and deploy both services:
 
 - `apps/server/Dockerfile` builds the Elysia API on port `3001`. On startup it
   applies pending migrations and idempotently creates the configured seed user.
