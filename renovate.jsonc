@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "extends": ["config:recommended"],
+
+  // Wait 3 days after a release before acting on it. Gives malware scanners
+  // time to flag a compromised package before we auto-install it, and keeps us
+  // off a release npm may still unpublish.
+  "minimumReleaseAge": "3 days",
+  // Some datasources (certain Docker tags) carry no release timestamp. Without
+  // this, "timestamp-required" would stall those updates forever. npm always
+  // supplies timestamps, so the 3-day gate above still holds where it matters.
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
+
+  // Only open a PR once the version has aged past minimumReleaseAge, so the
+  // pending `renovate/stability-days` check never has to gate an open PR.
+  "prCreation": "not-pending",
+  "internalChecksFilter": "strict",
+
+  // bun.lock is committed, so keep it fresh.
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "platformAutomerge": true,
+  },
+
+  "packageRules": [
+    {
+      "description": "Automerge patch and digest updates for stable releases",
+      "matchUpdateTypes": ["patch", "digest"],
+      "groupName": "patch updates",
+      "automerge": true,
+      "platformAutomerge": true,
+    },
+    {
+      "description": "Automerge minor updates for stable releases",
+      "matchUpdateTypes": ["minor"],
+      "automerge": true,
+      "platformAutomerge": true,
+    },
+    {
+      // Semver allows breaking changes at any 0.x version, and a prerelease such
+      // as nitro's 3.0.x-beta can too. Those still get their own PR, but a human
+      // merges them. Last rule wins, so this one must stay below the two above.
+      "description": "Never automerge 0.x or prerelease versions",
+      "matchCurrentVersion": "/^0\\.|-/",
+      "groupName": null,
+      "automerge": false,
+      "platformAutomerge": false,
+    },
+  ],
+}
