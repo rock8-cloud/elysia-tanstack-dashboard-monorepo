@@ -1,6 +1,6 @@
 # Build from the repository root:
 # docker build -f apps/web/Dockerfile --build-arg VITE_SERVER_URL=https://api.example.com -t elysia-tanstack-dashboard-monorepo-web .
-FROM oven/bun:1.3.14 AS build
+FROM oven/bun:1.4.4 AS build
 WORKDIR /app
 
 COPY package.json bun.lock bunfig.toml turbo.json ./
@@ -16,7 +16,7 @@ ARG VITE_SERVER_URL=http://localhost:3001
 ENV VITE_SERVER_URL=${VITE_SERVER_URL}
 RUN bun --filter @repo/web build
 
-FROM oven/bun:1.3.14-slim AS runtime
+FROM oven/bun:1.4.4-slim AS runtime
 WORKDIR /app/apps/web
 ENV NODE_ENV=production
 ENV PORT=3000
