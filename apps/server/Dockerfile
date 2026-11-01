@@ -1,6 +1,6 @@
 # Build from the repository root:
 # docker build -f apps/server/Dockerfile -t elysia-tanstack-dashboard-monorepo-server .
-FROM oven/bun:1.3.14 AS build
+FROM oven/bun:1.4.4 AS build
 WORKDIR /app
 
 COPY package.json bun.lock bunfig.toml turbo.json ./
@@ -13,7 +13,7 @@ COPY apps/server apps/server
 COPY packages/typescript-config packages/typescript-config
 RUN bun --filter @repo/server build
 
-FROM oven/bun:1.3.14-slim AS runtime
+FROM oven/bun:1.4.4-slim AS runtime
 WORKDIR /app/apps/server
 ENV NODE_ENV=production
 ENV PORT=3001
