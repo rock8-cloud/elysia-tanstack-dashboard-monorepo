@@ -12,9 +12,8 @@
   // supplies timestamps, so the 3-day gate above still holds where it matters.
   "minimumReleaseAgeBehaviour": "timestamp-optional",
 
-  // Only open a PR once the version has aged past minimumReleaseAge, so the
-  // pending `renovate/stability-days` check never has to gate an open PR.
-  "prCreation": "not-pending",
+  // Defer branches until updates have aged, then open PRs immediately so
+  // the pull_request CI workflow can run.
   "internalChecksFilter": "strict",
 
   // bun.lock is committed, so keep it fresh.
