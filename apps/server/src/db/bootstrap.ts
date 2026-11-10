@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 
+import { sql } from "drizzle-orm";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 
 import { auth } from "../lib/auth";
@@ -21,7 +22,42 @@ function findMigrationsFolder(): string {
   return migrationsFolder;
 }
 
+const DATABASE_WAIT_MS = 60_000;
+const DATABASE_RETRY_MS = 2_000;
+// A database deployed together with the API can still be starting when the API boots.
+const STARTING_UP_CODES = new Set([
+  "ECONNREFUSED",
+  "ECONNRESET",
+  "ENOTFOUND",
+  "EAI_AGAIN",
+  "ETIMEDOUT",
+  "57P03",
+]);
+
+function errorCode(error: unknown): string | undefined {
+  if (typeof error !== "object" || error === null) return undefined;
+  if ("code" in error && typeof error.code === "string") return error.code;
+  if ("cause" in error) return errorCode(error.cause);
+  return undefined;
+}
+
+async function waitForDatabase(): Promise<void> {
+  const deadline = Date.now() + DATABASE_WAIT_MS;
+  for (;;) {
+    try {
+      await db.execute(sql`select 1`);
+      return;
+    } catch (error) {
+      const code = errorCode(error);
+      if (!code || !STARTING_UP_CODES.has(code) || Date.now() >= deadline) throw error;
+      console.log(`Database not reachable yet (${code}), retrying`);
+      await Bun.sleep(DATABASE_RETRY_MS);
+    }
+  }
+}
+
 export async function migrateDatabase(): Promise<void> {
+  await waitForDatabase();
   await migrate(db, { migrationsFolder: findMigrationsFolder() });
   console.log("Database migrations applied");
 }

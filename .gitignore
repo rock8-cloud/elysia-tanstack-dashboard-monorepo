@@ -19,8 +19,9 @@ dist
 coverage
 *.tsbuildinfo
 
-# Local agent and editor state
-.claude
+# Local agent and editor state (shared agent skills stay tracked)
+.claude/*
+!.claude/skills/
 .idea
 .vscode
 
