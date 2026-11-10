@@ -141,7 +141,8 @@ deploy the web app, API, and Postgres database through the Rock8Cloud UI in one 
 You can also create your own repository from this blueprint and deploy it from
 the Rock8Cloud UI, or use an MCP-compatible coding agent. This repository
 includes [`.mcp.json`](.mcp.json) with the Rock8Cloud MCP endpoint already
-configured. Open the repository in your agent, complete the OAuth login when
+configured, [`AGENTS.md`](AGENTS.md) instructions and Rock8Cloud agent skills
+in `.agents/skills/` and `.claude/skills/`. Open the repository in your agent, complete the OAuth login when
 prompted, and ask:
 
 ```text
